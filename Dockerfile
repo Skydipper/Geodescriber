@@ -1,25 +1,12 @@
-FROM python:3.7.4-stretch
-MAINTAINER Vizzuality info@vizzuality.com
+FROM python:3.7
+MAINTAINER Vizzuality Science Team info@vizzuality.com
 
 ENV NAME geodescriber
 ENV USER geodescriber
-
-RUN apt-get update -qqy && apt-get install -qqy \
-   bash\
-   git\
-   libssl-dev\
-   libffi-dev\
-   gcc\
-   python-dev\
-   musl-dev\
-   libgeos-dev\
-   build-essential\
-   python-dev
-
 RUN addgroup $USER
 RUN useradd -ms /bin/bash -g $USER $USER
 
-RUN easy_install pip && pip install --upgrade pip
+RUN pip install --upgrade pip
 RUN pip install gunicorn gevent setuptools
 
 RUN mkdir -p /opt/$NAME
