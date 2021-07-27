@@ -14,8 +14,5 @@ SETTINGS = {
         'assets': {
             'geodescriber':'projects/wri-datalab/geodesriber-asset-v2'
         },
-    },
-    'redis': {
-        'url': os.getenv('REDIS_URL')
     }
 }

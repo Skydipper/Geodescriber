@@ -11,11 +11,6 @@ test:
     LOCAL_URL: http://mymachine:4501
     EE_PRIVATE_KEY: ${EE_PRIVATE_KEY}
     API_VERSION: v1
-    REDIS_URL: redis://redis:6379
   command: test
   volumes:
     - ./geodescriber:/opt/geodescriber/geodescriber
-  links:
-    - redis
-redis:
-  image: redis

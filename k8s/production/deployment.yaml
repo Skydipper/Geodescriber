@@ -1,80 +1,83 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: default
   labels:
-    name: {name}
     app: geodescriber
-  name: {name}
+    name: geodescriber
+  name: geodescriber
+  namespace: default
 spec:
+  progressDeadlineSeconds: 2147483647
+  replicas: 1
   revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      name: geodescriber
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
   template:
     metadata:
       labels:
-        name: {name}
+        name: geodescriber
     spec:
-      tolerations:
-      - key: "type"
-        operator: "Equal"
-        value: "geodescriber"
-        effect: "NoSchedule"
       containers:
-      - name: {name}
-        image: vizzuality/{name}
-        imagePullPolicy: Always
-        resources:
-          requests:
-            memory: "128Mi"
-          limits:
-            memory: "512Mi"
-        args:
-          - start
+      - args:
+        - start
         env:
-          - name: PORT
-            value: "4501"
-          - name: ENVIRONMENT
-            value: prod
-          - name: LOCAL_URL
-            value: http://{name}.default.svc.cluster.local:4501
-          - name: CT_URL
-            valueFrom:
-                secretKeyRef:
-                  name: mssecrets
-                  key: CT_URL
-          - name: CT_TOKEN
-            valueFrom:
-                secretKeyRef:
-                  name: mssecrets
-                  key: CT_TOKEN
-          - name: CT_REGISTER_MODE
-            valueFrom:
-                secretKeyRef:
-                  name: mssecrets
-                  key: CT_REGISTER_MODE
-          - name: API_VERSION
-            valueFrom:
-                secretKeyRef:
-                  name: mssecrets
-                  key: API_VERSION
-          - name: EE_PRIVATE_KEY
-            valueFrom:
-                secretKeyRef:
-                  name: mssecrets
-                  key: EE_PRIVATE_KEY
-
-          - name: REDIS_URL
-            value: redis://localhost:6379
+        - name: PORT
+          value: "4501"
+        - name: ENVIRONMENT
+          value: prod
+        - name: LOCAL_URL
+          value: http://geodescriber.default.svc.cluster.local:4501
+        - name: CT_URL
+          valueFrom:
+            secretKeyRef:
+              key: CT_URL
+              name: mssecrets
+        - name: CT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: CT_TOKEN
+              name: mssecrets
+        - name: CT_REGISTER_MODE
+          valueFrom:
+            secretKeyRef:
+              key: CT_REGISTER_MODE
+              name: mssecrets
+        - name: API_VERSION
+          valueFrom:
+            secretKeyRef:
+              key: API_VERSION
+              name: mssecrets
+        - name: EE_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              key: EE_PRIVATE_KEY
+              name: mssecrets
+        image: skydipper/geodescriber:master.10
+        imagePullPolicy: Always
+        name: geodescriber
         ports:
-          - containerPort: 4501
-
-      - name: redis
-        image: redis
-        ports:
-         - containerPort: 6379
+        - containerPort: 4501
+          protocol: TCP
         resources:
-         requests:
-           memory: "0Mi"
-           cpu: "0m"
-
-
+          limits:
+            memory: 512Mi
+          requests:
+            memory: 128Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
       restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      tolerations:
+      - effect: NoSchedule
+        key: type
+        operator: Equal
+        value: geodescriber

@@ -11,14 +11,8 @@ develop:
       DEBUG: "True"
       CT_TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im1pY3Jvc2VydmljZSIsImNyZWF0ZWRBdCI6IjIwMTYtMDktMTQifQ.IRCIRm1nfIQTfda_Wb6Pg-341zhV8soAgzw7dd5HxxQ
       API_VERSION: v1
-      REDIS_URL: redis://redis:6379
     command: develop
     volumes:
       - ./geodescriber:/opt/geodescriber/geodescriber
     restart: always
-    links:
-      - redis
-redis:
-  image: redis
-  restart: always
 

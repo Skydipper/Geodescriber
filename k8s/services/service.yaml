@@ -3,10 +3,10 @@ kind: Service
 metadata:
   namespace: default
   labels:
-    name: {name}
-  name: {name}
+    name: geodescriber
+  name: geodescriber
 spec:
   ports:
     - port: 4501
   selector:
-    name: {name}
+    name: geodescriber
