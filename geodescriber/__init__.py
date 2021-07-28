@@ -4,11 +4,11 @@ import ee
 import logging
 import os
 from flask import Flask
-from oauth2client.service_account import ServiceAccountCredentials
 from geodescriber.config import SETTINGS
 from geodescriber.routes.api import error
 from geodescriber.routes.api.v1 import geodescriber_endpoints_v1
 from geodescriber.utils.files import load_config_json
+import base64
 
 logging.basicConfig(
     level=SETTINGS.get('logging', {}).get('level'),
@@ -21,7 +21,7 @@ logging.basicConfig(
 EE_ACCOUNT = os.getenv('EE_ACCOUNT')
 EE_PRIVATE_KEY_FILE = os.getenv('EE_PRIVATE_KEY')
 logging.debug(f"ee_user: {EE_ACCOUNT}")
-gee_credentials = ee.ServiceAccountCredentials(EE_ACCOUNT, key_data=EE_PRIVATE_KEY_FILE)
+gee_credentials = ee.ServiceAccountCredentials(EE_ACCOUNT, key_data=base64.b64decode(EE_PRIVATE_KEY_FILE))
 ee.Initialize(gee_credentials)
 ee.data.setDeadline(60000)
 

@@ -58,6 +58,11 @@ spec:
             secretKeyRef:
               key: EE_PRIVATE_KEY
               name: mssecrets
+        - name: EE_ACCOUNT
+          valueFrom:
+            secretKeyRef:
+              key: EE_ACCOUNT
+              name: mssecrets
         image: skydipper/geodescriber:master.10
         imagePullPolicy: Always
         name: geodescriber
