@@ -1,4 +1,4 @@
-Flask==1.1.1
+Flask==2.3.2
 oauth2client==3.0.0
 earthengine-api==0.1.236
 google-api-python-client==1.12.8
