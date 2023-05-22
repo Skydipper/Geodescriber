@@ -3,7 +3,7 @@ oauth2client==3.0.0
 earthengine-api==0.1.236
 google-api-python-client==1.12.8
 CTRegisterMicroserviceFlask==0.4.0
-requests==2.22.0
+requests==2.31.0
 shapely==1.7a1
 pyproj==1.9.6
 pycrypto==2.6.1
